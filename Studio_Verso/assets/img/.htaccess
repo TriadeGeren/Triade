@@ -1,0 +1,5 @@
+# Pasta de uploads: nunca executar código aqui, mesmo que alguém consiga enviar um arquivo disfarçado
+<FilesMatch "\.(php|phtml|php[0-9]|phar|pl|py|cgi|sh)$">
+    Require all denied
+</FilesMatch>
+Options -Indexes

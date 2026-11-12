@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrar — Electro Install</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/auth.js"></script>
+</head>
+<body>
+
+<div class="login-split">
+
+  <!-- ===== painel esquerdo: marca ===== -->
+  <div class="login-left">
+    <span class="deco-circle" style="width:110px;height:110px; background:var(--safety); opacity:.14; top:12%; left:12%;"></span>
+    <span class="deco-circle" style="width:64px;height:64px; background:var(--copper); opacity:.20; bottom:18%; left:16%;"></span>
+    <span class="deco-circle" style="width:86px;height:86px; background:var(--copper-light); opacity:.16; bottom:10%; right:12%;"></span>
+    <span class="deco-circle" style="width:40px;height:40px; background:var(--safety); opacity:.22; top:16%; right:18%;"></span>
+
+    <img src="electro_img/logo-electro.png" alt="Electro Install" class="logo-badge">
+    <h2 class="brand-name">Electro Install</h2>
+    <p class="tagline">instalação segura, ligação por ligação.</p>
+    <div class="divider-dash"></div>
+    <p class="sub-text">
+      Cada instalação carrega uma <span class="accent">conexão de confiança</span>.<br>
+      Entre para acompanhar seus pedidos.
+    </p>
+  </div>
+
+  <!-- ===== painel direito: formulário ===== -->
+  <div class="login-right">
+    <div class="login-right-inner">
+      <a href="../index.html" class="back-link">← Voltar para o menu</a>
+
+      <h1>Bem-vindo(a) de volta</h1>
+      <p class="sub">Entre com seus dados para continuar.</p>
+
+      <div id="auth-error" class="auth-error">Usuário ou senha inválidos.</div>
+
+      <form id="login-form">
+        <div class="field">
+          <label for="user">Usuário</label>
+          <input type="text" id="user" placeholder="admin ou cliente" autocomplete="username" required>
+        </div>
+
+        <div class="field">
+          <label for="pass">Senha</label>
+          <div class="password-field">
+            <input type="password" id="pass" placeholder="Digite sua senha" autocomplete="current-password" required>
+            <button type="button" class="toggle-pass" id="toggle-pass" aria-label="Mostrar senha">👁️</button>
+          </div>
+        </div>
+
+        <div class="login-row-between">
+          <label class="checkbox-label">
+            <input type="checkbox" id="remember"> Lembrar de mim
+          </label>
+          <a href="#" class="forgot-link" id="forgot-link">Esqueceu a senha?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+      </form>
+
+      <div class="divider-or">ou</div>
+
+      <p class="login-hint-inline">
+        Acesso de demonstração — Cliente: <b>cliente / cliente123</b><br>
+        Administrador: <b>admin / admin123</b>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  document.getElementById("toggle-pass").addEventListener("click", () => {
+    const input = document.getElementById("pass");
+    const btn = document.getElementById("toggle-pass");
+    const showing = input.type === "text";
+    input.type = showing ? "password" : "text";
+    btn.textContent = showing ? "👁️" : "🙈";
+  });
+
+  document.getElementById("forgot-link").addEventListener("click", (e) => {
+    e.preventDefault();
+    alert("Fale com o administrador da Electro Install para redefinir seu acesso.");
+  });
+
+  document.getElementById("login-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const user = document.getElementById("user").value;
+    const pass = document.getElementById("pass").value;
+    const remember = document.getElementById("remember").checked;
+    const session = login(user, pass, remember);
+    const errorBox = document.getElementById("auth-error");
+
+    if(!session){
+      errorBox.classList.add("show");
+      return;
+    }
+    errorBox.classList.remove("show");
+    window.location.href = session.role === "admin" ? "admin.html" : "index-E.html";
+  });
+</script>
+</body>
+</html>

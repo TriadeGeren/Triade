@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrinho — Electro Install</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/catalog.js"></script>
+<script src="js/auth.js"></script>
+<script>requireAuth();</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index-E.html" class="logo">
+      <span class="bolt">⚡</span>
+      <span>Electro Install<span class="sub">INSTALAÇÕES ELÉTRICAS</span></span>
+    </a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index-E.html">Início</a></li>
+        <li><a href="produtos-E.html">Serviços</a></li>
+        <li><a href="sobre-E.html">Como funciona</a></li>
+        <li><a href="contato-E.html">Contato</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <a href="../index.html" class="util-link">← Gerenciador</a>
+      <a href="carrinho-E.html" class="cart-btn active" aria-label="Ver carrinho">
+        🧾 Carrinho <span class="cart-count" data-cart-count>0</span>
+      </a>
+      <button class="btn btn-outline btn-sm" onclick="logout()">Sair</button>
+      <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="page-band">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index-E.html">Início</a> / Carrinho</div>
+    <h1 style="font-size:32px;">Seu pedido</h1>
+    <p style="max-width:60ch;">Confira os serviços selecionados e finalize o orçamento pelo WhatsApp.</p>
+  </div>
+</div>
+
+<section class="section" style="padding-top:36px;">
+  <div class="wrap">
+    <div id="cart-container"></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>© 2026 Electro Install. Todos os direitos reservados.</span>
+      <span>CNPJ xx.xxx.xxx/xxxx-xx</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5585985132769" target="_blank" aria-label="Falar no WhatsApp">💬</a>
+
+<script src="js/catalog.js"></script>
+<script src="js/cart.js"></script>
+<script>
+  const container = document.getElementById("cart-container");
+
+  function renderCartPage(){
+    const cart = getCart();
+    const entries = Object.entries(cart);
+
+    if(entries.length === 0){
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="ico">🧾</div>
+          <h3>Seu carrinho está vazio</h3>
+          <p>Adicione serviços do nosso catálogo para montar seu orçamento.</p>
+          <a href="produtos-E.html" class="btn btn-primary" style="margin-top:10px;">Ver serviços</a>
+        </div>
+      `;
+      return;
+    }
+
+    const itemsHtml = entries.map(([id, qty]) => {
+      const item = getCatalog().find(p => p.id === id);
+      if(!item) return "";
+      return `
+        <div class="cart-item">
+          <div class="ico">${item.icon}</div>
+          <div>
+            <h4>${item.name}</h4>
+            <span class="cat">${item.catLabel} · ${formatBRL(item.price)} / unid.</span>
+          </div>
+          <div class="qty-control">
+            <button onclick="setQty('${id}', ${qty - 1})" aria-label="Diminuir quantidade">−</button>
+            <span>${qty}</span>
+            <button onclick="setQty('${id}', ${qty + 1})" aria-label="Aumentar quantidade">+</button>
+          </div>
+          <div class="line-price">${formatBRL(item.price * qty)}</div>
+          <button class="remove-btn" onclick="removeFromCart('${id}')" aria-label="Remover item">✕</button>
+        </div>
+      `;
+    }).join("");
+
+    const total = cartTotalValue();
+
+    container.innerHTML = `
+      <div class="cart-layout">
+        <div class="cart-list">${itemsHtml}</div>
+        <div class="summary-box">
+          <h3>Resumo do pedido</h3>
+          <div class="summary-row"><span>Itens (${cartTotalItems()})</span><span>${formatBRL(total)}</span></div>
+          <div class="summary-row"><span>Visita técnica</span><span>A combinar</span></div>
+          <div class="summary-row total"><span>Total estimado</span><span>${formatBRL(total)}</span></div>
+
+          <div class="field" style="margin-top:18px;">
+            <label for="cname">Seu nome</label>
+            <input type="text" id="cname" placeholder="Nome completo">
+          </div>
+          <div class="field">
+            <label for="caddr">Bairro / Endereço</label>
+            <input type="text" id="caddr" placeholder="Ex.: Aldeota, Fortaleza - CE">
+          </div>
+
+          <button class="btn btn-primary btn-block" id="checkout-btn">Finalizar pelo WhatsApp</button>
+          <p class="summary-note">Você será redirecionado ao WhatsApp com o resumo do pedido preenchido para confirmar data e horário da visita.</p>
+        </div>
+      </div>
+    `;
+
+    document.getElementById("checkout-btn").addEventListener("click", () => {
+      const name = document.getElementById("cname").value.trim();
+      const addr = document.getElementById("caddr").value.trim();
+      sendCheckoutToWhatsApp(name, addr);
+    });
+  }
+
+  renderCartPage();
+</script>
+</body>
+</html>

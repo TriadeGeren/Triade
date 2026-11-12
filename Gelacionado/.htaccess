@@ -1,0 +1,7 @@
+# Site hospedado na pasta /Gelacionado/
+DirectoryIndex index.php
+
+# Links antigos .html vão para a versão .php
+RewriteEngine On
+RewriteBase /Gelacionado/
+RewriteRule ^(index|servicos|paineis-inteligentes|sobre|contato|carrinho|admin)\.html$ $1.php [R=301,L]

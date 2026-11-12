@@ -1,0 +1,119 @@
+/* =========================================================
+   Studio Verso — Painel administrativo
+   Reaproveita as cores/fontes do site (style.css)
+   ========================================================= */
+body.admin{ display:flex; min-height:100vh; background:var(--creme); }
+
+/* --- menu lateral --- */
+.adm-lateral{
+  width:250px; flex-shrink:0; background:var(--roxo-escuro); color:#fff;
+  display:flex; flex-direction:column; padding:20px 14px;
+  position:sticky; top:0; height:100vh; overflow-y:auto;
+}
+.adm-logo{ display:flex; align-items:center; gap:10px; padding:4px 8px 22px; font-family:var(--display); font-size:1.15rem; color:#fff; }
+.adm-logo img{ width:42px; height:42px; border-radius:50%; object-fit:cover; }
+.adm-logo b{ color:var(--laranja); font-weight:600; }
+.adm-logo small{ display:block; font-family:var(--sans); font-size:.68rem; opacity:.7; font-weight:500; }
+.adm-lateral nav{ display:flex; flex-direction:column; gap:2px; flex:1; }
+.adm-lateral nav a, .adm-lateral-baixo a{
+  display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:var(--raio-peq);
+  font-size:.92rem; font-weight:600; color:#e9defa;
+}
+.adm-lateral nav a:hover, .adm-lateral-baixo a:hover{ background:rgba(255,255,255,.1); }
+.adm-lateral nav a.ativo{ background:var(--roxo); color:#fff; }
+.adm-lateral .ico{ width:22px; text-align:center; }
+.contador{ margin-left:auto; background:var(--laranja); color:#fff; font-style:normal; font-size:.7rem; padding:1px 8px; border-radius:999px; }
+.adm-lateral-baixo{ border-top:1px dashed rgba(255,255,255,.25); padding-top:12px; display:flex; flex-direction:column; gap:2px; }
+
+/* --- área principal --- */
+.adm-conteudo{ flex:1; min-width:0; }
+.adm-topo{ display:flex; align-items:center; gap:12px; padding:18px 32px; background:var(--creme-alto); border-bottom:3px dotted var(--linha); }
+.adm-topo h1{ margin:0; font-size:1.5rem; }
+.adm-menu-btn{ display:none; background:none; border:none; font-size:1.5rem; color:var(--roxo); cursor:pointer; }
+.adm-main{ padding:28px 32px 60px; max-width:1300px; }
+
+/* --- cartões e grades --- */
+.cartao{ background:var(--creme-alto); border:2px solid var(--linha); border-radius:var(--raio); padding:22px; margin-bottom:24px; }
+.cartao h2{ font-size:1.1rem; margin-bottom:14px; }
+.grade-kpi{ display:grid; grid-template-columns:repeat(auto-fit,minmax(175px,1fr)); gap:16px; margin-bottom:24px; }
+.kpi{ background:var(--creme-alto); border:2px solid var(--linha); border-radius:var(--raio); padding:18px 20px; }
+.kpi .rotulo{ font-size:.78rem; text-transform:uppercase; letter-spacing:.05em; color:var(--tinta-suave); font-weight:700; }
+.kpi .valor{ font-family:var(--display); font-size:1.7rem; color:var(--titulo); margin-top:4px; }
+.kpi .sub{ font-size:.8rem; color:var(--tinta-suave); }
+.kpi.destaque{ background:var(--roxo); border-color:var(--roxo); }
+.kpi.destaque .rotulo, .kpi.destaque .sub{ color:#e9defa; }
+.kpi.destaque .valor{ color:#fff; }
+.grade-2{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.grade-graficos{ display:grid; grid-template-columns:2fr 1fr; gap:24px; }
+.caixa-grafico{ position:relative; height:300px; }
+
+/* --- tabelas --- */
+.tabela-wrap{ overflow-x:auto; }
+table.tabela{ width:100%; border-collapse:collapse; font-size:.9rem; }
+table.tabela th{ text-align:left; padding:10px 12px; border-bottom:2px solid var(--linha); font-size:.78rem; text-transform:uppercase; letter-spacing:.04em; color:var(--tinta-suave); white-space:nowrap; }
+table.tabela td{ padding:10px 12px; border-bottom:1px solid var(--linha); vertical-align:middle; }
+table.tabela tr:hover td{ background:var(--roxo-suave); }
+table.tabela .num{ text-align:right; white-space:nowrap; }
+table.tabela img.mini{ width:44px; height:44px; object-fit:cover; border-radius:10px; border:1px solid var(--linha); }
+.vazio{ text-align:center; color:var(--tinta-suave); padding:30px 10px; }
+.nao-lida td{ font-weight:700; }
+
+/* --- formulários --- */
+.form-grade{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; align-items:end; }
+.form-grade .campo{ margin-bottom:0; }
+.form-coluna{ max-width:560px; }
+.campo small{ color:var(--tinta-suave); font-weight:500; }
+.campo-check label{ display:flex; align-items:center; gap:8px; }
+.campo-check input{ width:auto; }
+
+/* --- botões --- */
+.btn-peq{ padding:7px 16px; font-size:.82rem; }
+.btn-claro{ background:var(--roxo-claro); color:var(--titulo); border:2px solid transparent; }
+.btn-claro:hover{ background:var(--linha); }
+.btn-perigo{ background:#c0504d; color:#fff; }
+.btn-perigo:hover{ background:#a13d3a; }
+.btn-verde{ background:#2c8a5e; color:#fff; }
+.btn-verde:hover{ background:#226b49; }
+.acoes-linha{ display:flex; gap:6px; flex-wrap:wrap; }
+.acoes-linha form{ margin:0; }
+.barra{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; margin-bottom:18px; }
+
+/* --- selos --- */
+.badge{ display:inline-block; padding:3px 10px; border-radius:999px; font-size:.74rem; font-weight:700; white-space:nowrap; }
+.badge-st-novo{ background:#e4ecff; color:#2b4a9c; }
+.badge-st-em_producao{ background:#fff0d6; color:#9a5b00; }
+.badge-st-enviado{ background:#e8def8; color:#5a3a96; }
+.badge-st-concluido, .badge-pg-aprovado, .badge-ok{ background:#dff1e6; color:#2c6b4a; }
+.badge-st-cancelado, .badge-pg-recusado, .badge-ruim{ background:#fbe0e0; color:#9c3b3b; }
+.badge-pg-pendente, .badge-aviso{ background:#fff4cc; color:#8a6d00; }
+.badge-pg-estornado{ background:#ececec; color:#555; }
+
+/* --- filtros de faturamento --- */
+.filtros-fat{ display:flex; flex-direction:column; gap:14px; }
+.presets{ display:flex; gap:8px; flex-wrap:wrap; }
+.presets a{ padding:6px 14px; border-radius:999px; border:2px solid var(--linha); font-size:.82rem; font-weight:700; color:var(--roxo); background:var(--campo-bg); }
+.presets a:hover{ background:var(--roxo-claro); }
+.presets a.ativo{ background:var(--roxo); color:#fff; border-color:var(--roxo); }
+.exportar{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+
+.paginacao{ display:flex; gap:6px; flex-wrap:wrap; margin-top:16px; }
+.paginacao a{ padding:5px 12px; border:2px solid var(--linha); border-radius:10px; font-weight:700; font-size:.85rem; }
+.paginacao a.ativo{ background:var(--roxo); color:#fff; border-color:var(--roxo); }
+.detalhe-lista{ display:grid; grid-template-columns:140px 1fr; gap:8px 14px; font-size:.92rem; }
+.detalhe-lista dt{ font-weight:700; color:var(--titulo); }
+.detalhe-lista dd{ margin:0; }
+.msg-corpo{ white-space:pre-wrap; background:var(--campo-bg); border:2px solid var(--linha); border-radius:var(--raio-peq); padding:14px; }
+
+@media (max-width: 960px){
+  .adm-lateral{ position:fixed; left:-270px; z-index:80; transition:left .2s; }
+  .adm-lateral.aberto{ left:0; }
+  .adm-menu-btn{ display:block; }
+  .adm-topo, .adm-main{ padding-left:16px; padding-right:16px; }
+  .grade-2, .grade-graficos{ grid-template-columns:1fr; }
+}
+
+/* botão de tema no topo do admin */
+.adm-topo .btn-tema{ margin-left:auto; background:var(--roxo-claro); border:none; border-radius:999px; width:40px; height:40px; cursor:pointer; font-size:1.1rem; color:var(--titulo); }
+:root[data-tema="escuro"] .adm-lateral{ background:#241a3b; }
+:root[data-tema="escuro"] .alerta-erro{ background:#4a2326; color:#ffb3b3; }
+:root[data-tema="escuro"] .alerta-sucesso{ background:#1d3d2d; color:#a8e6c3; }

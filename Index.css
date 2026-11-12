@@ -1,0 +1,273 @@
+/* ============================================================
+   Gerenciador de Conteúdos — tokens
+   ============================================================ */
+:root {
+  --bg: #0b0d10;
+  --ink: #f4f2ec;
+  --ink-muted: rgba(244, 242, 236, 0.62);
+  --topbar-h: 76px;
+
+  /* Gelacionado — frio / ciano */
+  --gel-1: #061a2e;
+  --gel-2: #37b7c9;
+  --gel-3: #8fe9f2;
+
+  /* Studio_Verso — roxo / bege */
+  --stu-1: #2c1440;
+  --stu-2: #7d4f9c;
+  --stu-3: #e7d7ba;
+
+  /* Eletro_Install — eletricidade: amarelo / azul escuro */
+  --ele-1: #061029;
+  --ele-2: #14418f;
+  --ele-3: #f3c518;
+
+  --font-display: "Sora", "Segoe UI", sans-serif;
+  --font-body: "Inter", "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  min-height: 100%;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ============================================================
+   Barra superior + menu
+   ============================================================ */
+.topbar {
+  height: var(--topbar-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(20px, 4vw, 56px);
+  background: #08090c;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+}
+
+.topbar__brand-mark {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gel-3), var(--stu-2), var(--ele-3));
+}
+
+.menu {
+  display: flex;
+  gap: clamp(20px, 3vw, 40px);
+}
+
+.menu__item {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.menu__item--gelacionado:hover,
+.menu__item--gelacionado.is-active {
+  color: var(--gel-3);
+  border-color: var(--gel-3);
+}
+
+.menu__item--studio:hover,
+.menu__item--studio.is-active {
+  color: var(--stu-3);
+  border-color: var(--stu-2);
+}
+
+.menu__item--eletro:hover,
+.menu__item--eletro.is-active {
+  color: var(--ele-3);
+  border-color: var(--ele-3);
+}
+
+/* ============================================================
+   Grade de 3 colunas
+   ============================================================ */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  min-height: calc(100vh - var(--topbar-h) - 48px);
+}
+
+.card {
+  position: relative;
+  padding: 56px 32px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  scroll-margin-top: var(--topbar-h);
+  border-right: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.card--gelacionado {
+  background: linear-gradient(115deg, var(--gel-1) 0%, var(--gel-2) 62%, var(--gel-3) 100%);
+}
+
+.card--studio {
+  background: linear-gradient(115deg, var(--stu-1) 0%, var(--stu-2) 58%, var(--stu-3) 100%);
+}
+
+.card--eletro {
+  background: linear-gradient(115deg, var(--ele-1) 0%, var(--ele-2) 55%, var(--ele-3) 100%);
+  border-right: none;
+}
+
+/* Logo circular — estilo avatar, pronta para receber a marca */
+.card__logo {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  margin-bottom: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: whitesmoke;
+  border: 2px dashed rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(2px);
+}
+.card__logo img { width:100%; height:100%; border-radius:50%; object-fit:cover; }
+
+.card__logo-plus {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1;
+}
+
+/* Para usar a logo de verdade, troque o conteúdo do .card__logo por uma
+   imagem, por exemplo:
+   <div class="card__logo"><img src="logo-gelacionado.png" alt=""></div>
+   e adicione: .card__logo img { width:100%; height:100%; border-radius:50%; object-fit:cover; } */
+
+
+
+.card__title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  margin: 0 0 14px;
+  color: #fff;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.25);
+}
+
+.card__desc {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  max-width: 30ch;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0 0 28px;
+}
+
+.card__meta {
+  width: 100%;
+  max-width: 220px;
+  margin: 0 0 auto;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.card__meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  padding: 5px 0;
+}
+
+.card__meta-row dt {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.card__meta-row dd {
+  margin: 0;
+  font-weight: 600;
+  color: #fff;
+}
+
+.card__link {
+  margin-top: 28px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.card__link:hover {
+  background: rgba(0, 0, 0, 0.42);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   Rodapé
+   ============================================================ */
+.footer {
+  padding: 16px clamp(20px, 4vw, 56px);
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  background: #08090c;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer code {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ============================================================
+   Responsivo
+   ============================================================ */
+@media (max-width: 860px) {
+  .topbar {
+    flex-direction: column;
+    height: auto;
+    padding: 14px clamp(20px, 4vw, 56px);
+    gap: 12px;
+  }
+
+  .board {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    padding: 44px 24px 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card__link {
+    transition: none;
+  }
+}
+

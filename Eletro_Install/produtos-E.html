@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serviços — Electro Install</title>
+<meta name="description" content="Catálogo completo de instalação de equipamentos elétricos com preços fechados.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/catalog.js"></script>
+<script src="js/auth.js"></script>
+<script>requireAuth();</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index-E.html" class="logo">
+      <span class="bolt">⚡</span>
+      <span>Electro Install<span class="sub">INSTALAÇÕES ELÉTRICAS</span></span>
+    </a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index-E.html">Início</a></li>
+        <li><a href="produtos-E.html" class="active">Serviços</a></li>
+        <li><a href="sobre-E.html">Como funciona</a></li>
+        <li><a href="contato-E.html">Contato</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <a href="../index.html" class="util-link">← Gerenciador</a>
+      <a href="carrinho-E.html" class="cart-btn" aria-label="Ver carrinho">
+        🧾 Carrinho <span class="cart-count" data-cart-count>0</span>
+      </a>
+      <button class="btn btn-outline btn-sm" onclick="logout()">Sair</button>
+      <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="page-band">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index-E.html">Início</a> / Serviços</div>
+    <h1 style="font-size:32px;">Catálogo de instalações</h1>
+    <p style="max-width:60ch;">Preços de mão de obra de mercado. Materiais e peças (quando necessários) são orçados à parte, na visita técnica.</p>
+  </div>
+</div>
+
+<section class="section" style="padding-top:36px;">
+  <div class="wrap">
+    <div class="filter-row" id="filter-row"></div>
+    <div class="product-grid" id="catalog-grid"></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo" style="margin-bottom:12px;"><span class="bolt">⚡</span><span>Electro Install</span></div>
+        <p>Instalação profissional de equipamentos e aparelhos elétricos residenciais e comerciais.</p>
+      </div>
+      <div>
+        <h5>Serviços</h5>
+        <ul>
+          <li><a href="produtos-E.html">Climatização</a></li>
+          <li><a href="produtos-E.html">Iluminação</a></li>
+          <li><a href="produtos-E.html">Quadros e Painéis</a></li>
+          <li><a href="produtos-E.html">Segurança</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Empresa</h5>
+        <ul>
+          <li><a href="sobre-E.html">Como funciona</a></li>
+          <li><a href="contato-E.html">Contato</a></li>
+          <li><a href="carrinho-E.html">Carrinho</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contato</h5>
+        <ul>
+          <li>(85) 98513-2769</li>
+          <li>keven.lira69@gmail.com.br</li>
+          <li>Fortaleza — CE e região</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Electro Install. Todos os direitos reservados.</span>
+      <span>CNPJ xx.xxx.xxx/xxxx-xx</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5585985132769" target="_blank" aria-label="Falar no WhatsApp">💬</a>
+
+<script src="js/catalog.js"></script>
+<script src="js/cart.js"></script>
+<script>
+  const filterRow = document.getElementById("filter-row");
+  const grid = document.getElementById("catalog-grid");
+  let activeCat = "todos";
+
+  function renderFilters(){
+    filterRow.innerHTML = CATEGORIES.map(c =>
+      `<button class="filter-pill ${c.id === activeCat ? "active" : ""}" data-cat="${c.id}">${c.label}</button>`
+    ).join("");
+    filterRow.querySelectorAll(".filter-pill").forEach(btn => {
+      btn.addEventListener("click", () => {
+        activeCat = btn.dataset.cat;
+        renderFilters();
+        renderGrid();
+      });
+    });
+  }
+
+  function renderGrid(){
+    const catalog = getCatalog();
+    const items = activeCat === "todos" ? catalog : catalog.filter(p => p.cat === activeCat);
+    grid.innerHTML = items.map(item => `
+      <div class="card">
+        <div class="card-top">
+          <div class="card-ico">${item.icon}</div>
+          <span class="card-cat">${item.catLabel}</span>
+        </div>
+        <h3>${item.name}</h3>
+        <p class="desc">${item.desc}</p>
+        <div class="card-spec">
+          ${item.specs.map(s => `<span>› ${s}</span>`).join("")}
+        </div>
+        <div class="card-footer">
+          <div class="price">${formatBRL(item.price)}<small>mão de obra</small></div>
+          <button class="btn btn-copper btn-sm" onclick="addToCart('${item.id}')">Adicionar</button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  renderFilters();
+  renderGrid();
+</script>
+</body>
+</html>

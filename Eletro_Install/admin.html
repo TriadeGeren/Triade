@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Administrativo — Electro Install</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/catalog.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script>requireAuth("admin");</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index-E.html" class="logo">
+      <span class="bolt">⚡</span>
+      <span>Electro Install<span class="sub">PAINEL ADMINISTRATIVO</span></span>
+    </a>
+    <div class="header-actions">
+      <a href="../index.html" class="util-link">← Gerenciador</a>
+      <a href="index-E.html" class="util-link">Ver loja</a>
+      <button class="btn btn-outline btn-sm" onclick="logout()">Sair</button>
+    </div>
+  </div>
+</header>
+
+<div class="page-band">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index-E.html">Início</a> / Administração</div>
+    <h1 style="font-size:32px;">Painel administrativo</h1>
+    <p style="max-width:60ch;" id="admin-welcome">Gerencie o catálogo de serviços e acompanhe os pedidos recebidos.</p>
+  </div>
+</div>
+
+<section class="section admin-shell">
+  <div class="wrap">
+
+    <div class="admin-tabs">
+      <button class="active" data-tab="servicos">🧰 Serviços</button>
+      <button data-tab="pedidos">🧾 Pedidos</button>
+    </div>
+
+    <!-- ===================== SERVIÇOS ===================== -->
+    <div class="admin-panel active" id="tab-servicos">
+      <div class="admin-toolbar">
+        <span class="tag-label">Catálogo de serviços</span>
+        <button class="btn btn-copper btn-sm" id="btn-novo-servico">+ Novo serviço</button>
+      </div>
+
+      <form class="admin-new-form" id="form-novo-servico" style="display:none;">
+        <div class="field">
+          <label for="ns-nome">Nome</label>
+          <input type="text" id="ns-nome" required>
+        </div>
+        <div class="field">
+          <label for="ns-categoria">Categoria</label>
+          <select id="ns-categoria"></select>
+        </div>
+        <div class="field">
+          <label for="ns-icone">Ícone (emoji)</label>
+          <input type="text" id="ns-icone" value="🔧">
+        </div>
+        <div class="field">
+          <label for="ns-preco">Preço (R$)</label>
+          <input type="number" id="ns-preco" min="0" step="0.01" required>
+        </div>
+        <div class="field full" style="grid-column:1/-1;">
+          <label for="ns-desc">Descrição</label>
+          <input type="text" id="ns-desc" placeholder="Ex.: Instalação com fixação e testes elétricos">
+        </div>
+        <div style="display:flex; gap:10px; grid-column:1/-1;">
+          <button type="submit" class="btn btn-primary btn-sm">Salvar serviço</button>
+          <button type="button" class="btn btn-outline btn-sm" id="btn-cancelar-servico">Cancelar</button>
+        </div>
+      </form>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Nome</th>
+              <th>Categoria</th>
+              <th class="cell-price">Preço</th>
+              <th class="cell-actions">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-servicos"></tbody>
+        </table>
+      </div>
+      <p class="summary-note">Edite nome/preço direto na tabela e clique em 💾 para salvar. As alterações valem imediatamente para a loja.</p>
+    </div>
+
+    <!-- ===================== PEDIDOS ===================== -->
+    <div class="admin-panel" id="tab-pedidos">
+      <div class="admin-toolbar">
+        <span class="tag-label">Pedidos recebidos pelo carrinho</span>
+        <button class="btn btn-outline btn-sm" id="btn-limpar-pedidos">Limpar todos</button>
+      </div>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Pedido</th>
+              <th>Data</th>
+              <th>Cliente</th>
+              <th>Endereço</th>
+              <th>Itens</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th class="cell-actions">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-pedidos"></tbody>
+        </table>
+      </div>
+      <p class="summary-note">Um pedido é registrado aqui sempre que um cliente finaliza a compra pelo WhatsApp no carrinho.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>© 2026 Electro Install. Painel administrativo interno.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/admin.js"></script>
+</body>
+</html>

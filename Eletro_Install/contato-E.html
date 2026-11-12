@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contato — Electro Install</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/catalog.js"></script>
+<script src="js/auth.js"></script>
+<script>requireAuth();</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index-E.html" class="logo">
+      <span class="bolt">⚡</span>
+      <span>Electro Install<span class="sub">INSTALAÇÕES ELÉTRICAS</span></span>
+    </a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index-E.html">Início</a></li>
+        <li><a href="produtos-E.html">Serviços</a></li>
+        <li><a href="sobre-E.html">Como funciona</a></li>
+        <li><a href="contato-E.html" class="active">Contato</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <a href="../index.html" class="util-link">← Gerenciador</a>
+      <a href="carrinho-E.html" class="cart-btn" aria-label="Ver carrinho">
+        🧾 Carrinho <span class="cart-count" data-cart-count>0</span>
+      </a>
+      <button class="btn btn-outline btn-sm" onclick="logout()">Sair</button>
+      <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="page-band">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="index-E.html">Início</a> / Contato</div>
+    <h1 style="font-size:32px;">Fale com a Electro Install</h1>
+    <p style="max-width:60ch;">Prefere descrever seu problema antes de montar o pedido? Preencha o formulário e conversamos pelo WhatsApp.</p>
+  </div>
+</div>
+
+<section class="section" style="padding-top:36px;">
+  <div class="wrap cart-layout">
+    <div>
+      <form id="contact-form">
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Nome</label>
+            <input type="text" id="name" required placeholder="Seu nome completo">
+          </div>
+          <div class="field">
+            <label for="phone">Telefone</label>
+            <input type="tel" id="phone" required placeholder="(85) 90000-0000">
+          </div>
+          <div class="field full">
+            <label for="service">Tipo de serviço</label>
+            <select id="service">
+              <option value="">Selecione uma categoria</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="message">Descreva o que você precisa</label>
+            <textarea id="message" placeholder="Ex.: Preciso instalar um ar-condicionado 12.000 BTUs na sala"></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Enviar pelo WhatsApp</button>
+      </form>
+    </div>
+
+    <div class="summary-box">
+      <h3>Outros canais</h3>
+      <div class="summary-row"><span>WhatsApp</span><span>(85) 98513-2769</span></div>
+      <div class="summary-row"><span>Telefone</span><span>(85) 8513-2769</span></div>
+      <div class="summary-row"><span>E-mail</span><span>keven.lira69@gmail.com.br</span></div>
+      <div class="summary-row"><span>Atendimento</span><span>Seg–Sáb, 8h–18h</span></div>
+      <p class="summary-note">Área de cobertura: Fortaleza e Região Metropolitana.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>© 2026 Electro Install. Todos os direitos reservados.</span>
+      <span>CNPJ xx.xxx.xxx/xxxx-xx</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5585985132769" target="_blank" aria-label="Falar no WhatsApp">💬</a>
+
+<script src="js/catalog.js"></script>
+<script src="js/cart.js"></script>
+<script>
+  const select = document.getElementById("service");
+  CATEGORIES.filter(c => c.id !== "todos").forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c.label;
+    opt.textContent = c.label;
+    select.appendChild(opt);
+  });
+
+  document.getElementById("contact-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const service = document.getElementById("service").value;
+    const message = document.getElementById("message").value.trim();
+
+    const lines = [
+      "Olá, Electro Install! Gostaria de um orçamento.",
+      "",
+      `Nome: ${name}`,
+      `Telefone: ${phone}`,
+      service ? `Categoria: ${service}` : "",
+      message ? `Detalhes: ${message}` : ""
+    ].filter(Boolean);
+
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join("\n"))}`;
+    window.open(url, "_blank");
+  });
+</script>
+</body>
+</html>

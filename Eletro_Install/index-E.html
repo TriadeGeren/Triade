@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electro Install — Instalação de aparelhos e equipamentos elétricos</title>
+<meta name="description" content="Instalação profissional de ar-condicionado, ventiladores, quadros elétricos, câmeras e muito mais. Orçamento rápido pelo WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="js/catalog.js"></script>
+<script src="js/auth.js"></script>
+<script>requireAuth();</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index-E.html" class="logo">
+      <span class="bolt">⚡</span>
+      <span>Electro Install<span class="sub">INSTALAÇÕES ELÉTRICAS</span></span>
+    </a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index-E.html" class="active">Início</a></li>
+        <li><a href="produtos-E.html">Serviços</a></li>
+        <li><a href="sobre-E.html">Como funciona</a></li>
+        <li><a href="contato-E.html">Contato</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <a href="../index.html" class="util-link">← Gerenciador</a>
+      <a href="carrinho-E.html" class="cart-btn" aria-label="Ver carrinho">
+        🧾 Carrinho <span class="cart-count" data-cart-count>0</span>
+      </a>
+      <button class="btn btn-outline btn-sm" onclick="logout()">Sair</button>
+      <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <span class="tag-label">Orçamento em minutos pelo WhatsApp</span>
+      <h1>Cada instalação<br>é um circuito<br><span class="accent">bem fechado.</span></h1>
+      <p class="lead">Escolha o serviço, veja o preço na hora e agende a visita técnica. Instalamos ar-condicionado, ventiladores, quadros de disjuntores, câmeras e muito mais — com garantia e mão de obra especializada.</p>
+      <div class="hero-actions">
+        <a href="produtos-E.html" class="btn btn-primary">Ver todos os serviços</a>
+        <a href="contato-E.html" class="btn btn-outline">Falar com um técnico</a>
+      </div>
+      <ul class="hero-trust">
+        <li>Preços fechados, sem surpresa</li>
+        <li>Técnicos avaliados</li>
+        <li>Garantia em todo serviço</li>
+      </ul>
+    </div>
+
+    <div class="breaker-panel">
+      <div class="breaker-panel-head">
+        <span>QUADRO-01 / ÁREAS DE ATUAÇÃO</span>
+        <span>127V • 220V</span>
+      </div>
+      <div class="breaker-grid">
+        <div class="breaker on"><span class="ico">❄️</span><span class="switch"></span><span class="lbl">Climatização</span></div>
+        <div class="breaker on"><span class="ico">💡</span><span class="switch"></span><span class="lbl">Iluminação</span></div>
+        <div class="breaker on"><span class="ico">🧯</span><span class="switch"></span><span class="lbl">Quadros</span></div>
+        <div class="breaker on"><span class="ico">🚿</span><span class="switch"></span><span class="lbl">Aquecimento</span></div>
+        <div class="breaker on"><span class="ico">📷</span><span class="switch"></span><span class="lbl">Segurança</span></div>
+        <div class="breaker on"><span class="ico">🔌</span><span class="switch"></span><span class="lbl">Tomadas</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag-label">Mais pedidos</span>
+      <h2>Serviços em destaque</h2>
+      <p>Uma amostra do catálogo completo — todos com preço fixo de mão de obra.</p>
+    </div>
+    <div class="product-grid" id="featured-grid"></div>
+    <div style="text-align:center; margin-top:36px;">
+      <a href="produtos-E.html" class="btn btn-outline">Ver catálogo completo</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag-label">Passo a passo</span>
+      <h2>Como funciona</h2>
+      <p>Do orçamento à instalação, sem burocracia.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="n">01</span>
+        <h4>Escolha o serviço</h4>
+        <p>Navegue pelo catálogo e adicione ao carrinho o que precisa instalar.</p>
+      </div>
+      <div class="step">
+        <span class="n">02</span>
+        <h4>Envie pelo WhatsApp</h4>
+        <p>Finalize o pedido e envie os detalhes direto para nossa equipe.</p>
+      </div>
+      <div class="step">
+        <span class="n">03</span>
+        <h4>Agende a visita</h4>
+        <p>Confirmamos data e horário conforme sua disponibilidade.</p>
+      </div>
+      <div class="step">
+        <span class="n">04</span>
+        <h4>Instalação com garantia</h4>
+        <p>Serviço executado por técnico especializado, com garantia inclusa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="badges">
+      <div class="badge">
+        <div class="ico">🛡️</div>
+        <h4>Garantia inclusa</h4>
+        <p>De 60 a 180 dias conforme o serviço executado.</p>
+      </div>
+      <div class="badge">
+        <div class="ico">📋</div>
+        <h4>Preço fechado</h4>
+        <p>Valor de mão de obra combinado antes da visita.</p>
+      </div>
+      <div class="badge">
+        <div class="ico">🧑‍🔧</div>
+        <h4>Técnicos avaliados</h4>
+        <p>Profissionais com experiência comprovada em instalações.</p>
+      </div>
+      <div class="badge">
+        <div class="ico">⏱️</div>
+        <h4>Agilidade</h4>
+        <p>Atendimento rápido, com horários flexíveis.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag-label">Quem já instalou</span>
+      <h2>Avaliações de clientes</h2>
+    </div>
+    <div class="testimonials">
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p>Instalaram meu ar-condicionado no mesmo dia que pedi o orçamento. Preço combinado foi exatamente o cobrado.</p>
+        <div class="who">Marina S. — Fortaleza, CE</div>
+      </div>
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p>Troquei o quadro de disjuntores da minha casa inteira. Serviço limpo e organizado, recomendo.</p>
+        <div class="who">Carlos E. — Fortaleza, CE</div>
+      </div>
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <p>Pedi instalação de câmeras e interfone. Atendimento pelo WhatsApp foi rápido do início ao fim.</p>
+        <div class="who">Renata O. — Eusébio, CE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="cta-band">
+      <div>
+        <h3>Pronto para instalar?</h3>
+        <p>Monte seu pedido agora e receba o orçamento direto no WhatsApp.</p>
+      </div>
+      <a href="produtos-E.html" class="btn btn-primary">Montar meu pedido</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="logo" style="margin-bottom:12px;"><span class="bolt">⚡</span><span>Electro Install</span></div>
+        <p>Instalação profissional de equipamentos e aparelhos elétricos residenciais e comerciais.</p>
+      </div>
+      <div>
+        <h5>Serviços</h5>
+        <ul>
+          <li><a href="produtos-E.html">Climatização</a></li>
+          <li><a href="produtos-E.html">Iluminação</a></li>
+          <li><a href="produtos-E.html">Quadros e Painéis</a></li>
+          <li><a href="produtos-E.html">Segurança</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Empresa</h5>
+        <ul>
+          <li><a href="sobre-E.html">Como funciona</a></li>
+          <li><a href="contato-E.html">Contato</a></li>
+          <li><a href="carrinho-E.html">Carrinho</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contato</h5>
+        <ul>
+          <li>(85) 99999-9999</li>
+          <li>contato@electroinstall.com.br</li>
+          <li>Fortaleza — CE e região</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Electro Install. Todos os direitos reservados.</span>
+      <span>CNPJ 00.000.000/0001-00</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5585985132769" target="_blank" aria-label="Falar no WhatsApp">💬</a>
+
+<script src="js/catalog.js"></script>
+<script src="js/cart.js"></script>
+<script>
+  const featuredIds = ["split-12k","ventilador-teto","quadro-12","camera-seguranca","chuveiro-eletrico","motor-portao"];
+  const grid = document.getElementById("featured-grid");
+  featuredIds.forEach(id => {
+    const item = getCatalog().find(p => p.id === id);
+    if(!item) return;
+    grid.insertAdjacentHTML("beforeend", `
+      <div class="card">
+        <div class="card-top">
+          <div class="card-ico">${item.icon}</div>
+          <span class="card-cat">${item.catLabel}</span>
+        </div>
+        <h3>${item.name}</h3>
+        <p class="desc">${item.desc}</p>
+        <div class="card-footer">
+          <div class="price">${formatBRL(item.price)}<small>mão de obra</small></div>
+          <button class="btn btn-copper btn-sm" onclick="addToCart('${item.id}')">Adicionar</button>
+        </div>
+      </div>
+    `);
+  });
+</script>
+</body>
+</html>

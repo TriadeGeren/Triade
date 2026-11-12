@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar — Studio Verso</title>
+  <meta name="description" content="Acesse sua conta Studio Verso para acompanhar pedidos, favoritos e encomendas personalizadas.">
+  <link rel="stylesheet" href="Geral_S.css">
+</head>
+<body>
+
+  <div class="pagina-login">
+
+    <!-- Painel da marca -->
+    <section class="painel-marca">
+      <span class="novelo novelo-1" aria-hidden="true"></span>
+      <span class="novelo novelo-2" aria-hidden="true"></span>
+      <span class="novelo novelo-3" aria-hidden="true"></span>
+
+      <div class="painel-marca-conteudo">
+        <img class="marca-logo" src="StudioVersoImage/logo-studio-verso.png" alt="Studio Verso">
+        <p class="marca-tagline">feito à mão, fio por fio, traço por traço</p>
+        <hr class="divisor-costura">
+        <p class="marca-mensagem">Cada peça carrega <em>o verso</em> de uma história. Entre para acompanhar a sua.</p>
+      </div>
+    </section>
+
+    <!-- Painel do formulário -->
+    <section class="painel-form">
+      <div class="form-cartao">
+        <a href="C:\Users\Professor\Documents\GitHub\Gerenciador_Conteudos\index.html" class="form-voltar">&larr; Voltar para o menu</a>
+
+        <h1>Bem-vindo(a) de volta</h1>
+        <p class="form-subtitulo">Entre com seus dados para continuar.</p>
+
+        <div id="avisoLogin" class="form-aviso" role="alert">
+          E-mail ou senha incorretos. Tente novamente.
+        </div>
+
+        <form id="formLogin" novalidate>
+
+          <div class="campo">
+            <label for="email">E-mail</label>
+            <div class="campo-input">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="seuemail@exemplo.com"
+                autocomplete="email"
+                required>
+            </div>
+            <span class="campo-mensagem-erro" id="erroEmail"></span>
+          </div>
+
+          <div class="campo">
+            <label for="senha">Senha</label>
+            <div class="campo-input">
+              <input
+                type="password"
+                id="senha"
+                name="senha"
+                placeholder="Digite sua senha"
+                autocomplete="current-password"
+                required>
+              <button type="button" class="alternar-senha" id="botaoAlternarSenha" aria-label="Mostrar senha" aria-pressed="false">
+                <svg id="iconeOlho" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+            <span class="campo-mensagem-erro" id="erroSenha"></span>
+          </div>
+
+          <div class="form-opcoes">
+            <label class="lembrar">
+              <input type="checkbox" id="lembrar" name="lembrar">
+              Lembrar de mim
+            </label>
+            <a href="#" class="esqueceu-senha">Esqueceu a senha?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primario btn-bloco">Entrar</button>
+        </form>
+
+        <div class="divisor-ou">ou</div>
+
+        <p class="form-rodape">
+          Ainda não tem conta? <a href="#">Criar conta</a>
+        </p>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // Mostrar/ocultar senha
+    const botaoAlternarSenha = document.getElementById('botaoAlternarSenha');
+    const campoSenha = document.getElementById('senha');
+
+    botaoAlternarSenha.addEventListener('click', () => {
+      const visivel = campoSenha.type === 'text';
+      campoSenha.type = visivel ? 'password' : 'text';
+      botaoAlternarSenha.setAttribute('aria-pressed', String(!visivel));
+      botaoAlternarSenha.setAttribute('aria-label', visivel ? 'Mostrar senha' : 'Ocultar senha');
+    });
+
+    // Validação simples no envio (front-end apenas — a checagem real
+    // do e-mail/senha deve ser feita quando o back-end for conectado)
+    const formLogin = document.getElementById('formLogin');
+    const campoEmail = document.getElementById('email');
+    const erroEmail = document.getElementById('erroEmail');
+    const erroSenha = document.getElementById('erroSenha');
+    const avisoLogin = document.getElementById('avisoLogin');
+
+    formLogin.addEventListener('submit', (evento) => {
+      evento.preventDefault();
+      let valido = true;
+
+      erroEmail.textContent = '';
+      erroSenha.textContent = '';
+      avisoLogin.classList.remove('visivel');
+      campoEmail.classList.remove('campo-erro');
+      campoSenha.classList.remove('campo-erro');
+
+      const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(campoEmail.value.trim());
+      if (!emailValido) {
+        erroEmail.textContent = 'Digite um e-mail válido.';
+        campoEmail.classList.add('campo-erro');
+        valido = false;
+      }
+
+      if (campoSenha.value.length < 6) {
+        erroSenha.textContent = 'A senha deve ter pelo menos 6 caracteres.';
+        campoSenha.classList.add('campo-erro');
+        valido = false;
+      }
+
+      if (!valido) return;
+
+      // TODO: substituir pelo envio real ao back-end / API de autenticação.
+      console.log('Login enviado:', {
+        email: campoEmail.value.trim(),
+        lembrar: document.getElementById('lembrar').checked
+      });
+    });
+  </script>
+
+</body>
+</html>

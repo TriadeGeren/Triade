@@ -1,0 +1,476 @@
+/* ============================================================
+   Studio Verso — Geral_S.css
+   Folha de estilo geral: variáveis, reset e componentes base
+   usados em todas as páginas da loja (a começar pela de login).
+   ============================================================ */
+
+/* ---------- Fontes ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;600&display=swap');
+
+/* ---------- Variáveis de marca ---------- */
+:root {
+  /* Cores base */
+  --lilas-claro: #EFE9FB;
+  --creme-claro: #FDF1E1;
+  --roxo: #6C4FD1;
+  --roxo-escuro: #4B2FA0;
+  --roxo-profundo: #2E1B4E;
+  --laranja: #F0965C;
+  --laranja-claro: #F7C29A;
+  --branco: #FFFFFF;
+  --texto: #3B3153;
+  --texto-suave: #7A7191;
+  --borda: #E4DCF5;
+
+  /* Formas e sombra */
+  --raio-pilula: 999px;
+  --raio-card: 26px;
+  --raio-input: 16px;
+  --sombra-suave: 0 14px 32px rgba(108, 79, 209, 0.18);
+  --sombra-botao: 0 10px 24px rgba(108, 79, 209, 0.35);
+
+  /* Tipografia */
+  --fonte-titulo: 'Baloo 2', sans-serif;
+  --fonte-script: 'Caveat', cursive;
+  --fonte-corpo: 'Quicksand', sans-serif;
+}
+
+/* ---------- Reset básico ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fonte-corpo);
+  color: var(--texto);
+  background: var(--creme-claro);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Foco visível para acessibilidade (teclado) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--laranja);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------- Componente: botão pílula (reutilizado em toda a loja) ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: var(--raio-pilula);
+  font-family: var(--fonte-corpo);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 15px 28px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-primario {
+  background: var(--roxo);
+  color: var(--branco);
+  box-shadow: var(--sombra-botao);
+}
+
+.btn-primario:hover {
+  background: var(--roxo-escuro);
+  transform: translateY(-2px);
+}
+
+.btn-primario:active {
+  transform: translateY(0);
+}
+
+.btn-primario:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-bloco {
+  width: 100%;
+}
+
+/* ---------- Componente: campo de formulário ---------- */
+.campo {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.campo label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--roxo-profundo);
+  margin-bottom: 8px;
+}
+
+.campo-input {
+  position: relative;
+}
+
+.campo input[type="email"],
+.campo input[type="password"],
+.campo input[type="text"] {
+  width: 100%;
+  border: 2px solid var(--borda);
+  border-radius: var(--raio-input);
+  padding: 13px 16px;
+  background: var(--branco);
+  color: var(--texto);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.campo input::placeholder {
+  color: #B7AFCB;
+}
+
+.campo input:focus {
+  border-color: var(--roxo);
+  box-shadow: 0 0 0 4px rgba(108, 79, 209, 0.14);
+  outline: none;
+}
+
+.campo input.campo-erro {
+  border-color: #E2685C;
+}
+
+.campo-mensagem-erro {
+  display: block;
+  font-size: 0.82rem;
+  color: #D14B3D;
+  margin-top: 6px;
+  min-height: 1em;
+}
+
+.alternar-senha {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--texto-suave);
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.alternar-senha:hover {
+  color: var(--roxo);
+}
+
+/* ---------- Divisor pontilhado (mesmo estilo da vitrine) ---------- */
+.divisor-costura {
+  width: 100%;
+  max-width: 220px;
+  border: none;
+  border-top: 3px dashed var(--laranja-claro);
+  margin: 0 auto;
+}
+
+/* ============================================================
+   Página: Login (Index_S.html)
+   ============================================================ */
+
+.pagina-login {
+  min-height: 100vh;
+  display: flex;
+}
+
+/* --- Painel da marca (esquerda) --- */
+.painel-marca {
+  flex: 1 1 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 48px;
+  text-align: center;
+  background: linear-gradient(150deg, var(--lilas-claro) 0%, var(--creme-claro) 100%);
+  overflow: hidden;
+}
+
+.painel-marca-conteudo {
+  position: relative;
+  z-index: 2;
+  max-width: 380px;
+}
+
+.marca-logo {
+  width: 168px;
+  height: auto;
+  margin: 0 auto 20px;
+  filter: drop-shadow(0 10px 22px rgba(108, 79, 209, 0.25));
+}
+
+.marca-tagline {
+  font-family: var(--fonte-script);
+  font-size: 1.7rem;
+  color: var(--roxo);
+  margin-bottom: 26px;
+}
+
+.painel-marca .divisor-costura {
+  margin-bottom: 26px;
+}
+
+.marca-mensagem {
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.55;
+  color: var(--roxo-profundo);
+}
+
+.marca-mensagem em {
+  font-style: normal;
+  color: var(--roxo);
+  border-bottom: 3px solid var(--laranja-claro);
+  padding-bottom: 1px;
+}
+
+/* novelos decorativos flutuando ao fundo do painel da marca */
+.painel-marca .novelo {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+  opacity: 0.55;
+}
+
+.novelo-1 {
+  width: 90px;
+  height: 90px;
+  background: var(--laranja-claro);
+  top: 12%;
+  left: 8%;
+  animation: flutuar 7s ease-in-out infinite;
+}
+
+.novelo-2 {
+  width: 60px;
+  height: 60px;
+  background: var(--roxo);
+  opacity: 0.18;
+  bottom: 14%;
+  right: 10%;
+  animation: flutuar 8s ease-in-out infinite reverse;
+}
+
+.novelo-3 {
+  width: 40px;
+  height: 40px;
+  background: var(--laranja);
+  opacity: 0.3;
+  bottom: 22%;
+  left: 14%;
+  animation: flutuar 6s ease-in-out infinite;
+}
+
+@keyframes flutuar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+
+/* --- Painel do formulário (direita) --- */
+.painel-form {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--branco);
+  padding: 48px;
+}
+
+.form-cartao {
+  width: 100%;
+  max-width: 380px;
+}
+
+.form-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--texto-suave);
+  margin-bottom: 36px;
+  transition: color 0.2s ease;
+}
+
+.form-voltar:hover {
+  color: var(--roxo);
+}
+
+.form-cartao h1 {
+  font-family: var(--fonte-titulo);
+  font-weight: 700;
+  font-size: 2rem;
+  color: var(--roxo-profundo);
+  margin-bottom: 8px;
+}
+
+.form-subtitulo {
+  color: var(--texto-suave);
+  margin-bottom: 32px;
+  font-size: 0.96rem;
+}
+
+.form-opcoes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px 0 28px;
+  font-size: 0.88rem;
+}
+
+.lembrar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--texto-suave);
+  cursor: pointer;
+}
+
+.lembrar input {
+  accent-color: var(--roxo);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.esqueceu-senha {
+  font-weight: 600;
+  color: var(--roxo);
+}
+
+.esqueceu-senha:hover {
+  color: var(--laranja);
+  text-decoration: underline;
+}
+
+.form-aviso {
+  display: none;
+  background: #FBEAE7;
+  color: #C0392B;
+  border: 1px solid #F3C6BE;
+  border-radius: var(--raio-input);
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+
+.form-aviso.visivel {
+  display: block;
+}
+
+.divisor-ou {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 28px 0;
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+}
+
+.divisor-ou::before,
+.divisor-ou::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--borda);
+}
+
+.form-rodape {
+  text-align: center;
+  font-size: 0.92rem;
+  color: var(--texto-suave);
+}
+
+.form-rodape a {
+  color: var(--roxo);
+  font-weight: 700;
+}
+
+.form-rodape a:hover {
+  color: var(--laranja);
+  text-decoration: underline;
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 940px) {
+  .pagina-login {
+    flex-direction: column;
+  }
+
+  .painel-marca {
+    padding: 48px 24px 40px;
+    min-height: 320px;
+  }
+
+  .marca-logo {
+    width: 128px;
+  }
+
+  .marca-tagline {
+    font-size: 1.4rem;
+  }
+
+  .marca-mensagem {
+    font-size: 1.05rem;
+  }
+
+  .painel-form {
+    padding: 40px 24px 56px;
+  }
+}
+
+@media (max-width: 420px) {
+  .form-opcoes {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+}
