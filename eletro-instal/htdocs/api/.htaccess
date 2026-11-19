@@ -1,0 +1,20 @@
+# Eletro Instal — roteamento da API (compatível com InfinityFree)
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Algumas hospedagens (CGI/FastCGI) removem o header Authorization.
+  # Isto o repassa ao PHP. (O site também envia X-Auth-Token como reserva.)
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+  # Tudo que não for arquivo real vai para o roteador
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+# Código-fonte interno nunca deve ser acessado direto
+<FilesMatch "^(config\.php\.bak|\.env)$">
+  Require all denied
+</FilesMatch>

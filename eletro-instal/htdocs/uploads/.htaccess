@@ -1,0 +1,5 @@
+# Uploads: nunca executar código, apenas servir imagens
+Options -Indexes
+<FilesMatch "\.(php|phtml|php[0-9]|phar|pl|py|cgi|sh|html?|js)$">
+  Require all denied
+</FilesMatch>

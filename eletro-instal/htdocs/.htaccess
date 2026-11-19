@@ -1,0 +1,18 @@
+# Eletro Instal — configuração Apache (InfinityFree)
+Options -Indexes
+DirectoryIndex index.php index.html
+
+# Nunca exibir arquivos internos
+<FilesMatch "(^\.|\.(sql|md|log|key|bak|sh)$)">
+  Require all denied
+</FilesMatch>
+
+# Para forçar HTTPS: primeiro ative o SSL gratuito no painel da InfinityFree,
+# depois remova o "#" das linhas abaixo.
+#<IfModule mod_rewrite.c>
+#  RewriteEngine On
+#  RewriteCond %{HTTPS} off
+#  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+#</IfModule>
+
+ErrorDocument 404 /404.php
