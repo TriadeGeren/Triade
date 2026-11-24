@@ -37,3 +37,11 @@ Soma de `quantidade × preço unitário` dos itens dos pedidos. **Por padrão s�
 
 ## Modo escuro
 Botão 🌙/☀️ no topo (site e admin). A escolha fica salva no navegador; na primeira visita segue o tema do aparelho.
+
+## Pagamento (Pix manual)
+- O cliente finaliza o pedido e vê a tela com **QR Code + Pix Copia e Cola** (já com o valor), além do botão
+  para enviar o comprovante no WhatsApp.
+- Quando o dinheiro cair na sua conta, abra **Pedidos** e clique em **✔ Confirmar pagamento**
+  (na linha do pedido ou dentro dele). O estoque é descontado automaticamente, uma vez por pedido.
+- Sua chave Pix, nome e cidade ficam no `segredos.php` (`PIX_CHAVE`, `PIX_NOME`, `PIX_CIDADE`, `WHATSAPP_LOJA`).
+- Não há mais nenhuma API de pagamento: nada de token, webhook ou taxa de intermediário.

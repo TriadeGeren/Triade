@@ -1,0 +1,6 @@
+# Studio Verso — protege arquivos que nunca devem ser abertos pelo navegador.
+# (O PHP continua lendo normalmente: isto só bloqueia acesso direto pela internet.)
+<FilesMatch "^(segredos(\..+)?\.php|.+\.(md|sql|log|bak|ini))$">
+    Require all denied
+</FilesMatch>
+Options -Indexes

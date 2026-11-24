@@ -5,7 +5,9 @@ return [
     'DB_USER' => 'if0_42999101',
     'DB_PASS' => 'KcEoNWR7iIkxN',
 
-    'MP_ACCESS_TOKEN' => 'APP_USR-4391696341448089-102516-e2c32e6eed320898ae9ed1eba8d2aed5-3628807245',
-    'URL_SITE' => 'https://triade-gerenciada.xo.je/Studio_Verso/index.php',
-    'MP_USAR_WEBHOOK' => 'false',
+    // Pix manual — preencha com os SEUS dados (veja segredos.exemplo.php)
+    'PIX_CHAVE' => '',
+    'PIX_NOME' => 'Studio Verso',
+    'PIX_CIDADE' => 'Fortaleza',
+    'WHATSAPP_LOJA' => '5585996198403',
 ];

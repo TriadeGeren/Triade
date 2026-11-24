@@ -117,3 +117,26 @@ table.tabela img.mini{ width:44px; height:44px; object-fit:cover; border-radius:
 :root[data-tema="escuro"] .adm-lateral{ background:#241a3b; }
 :root[data-tema="escuro"] .alerta-erro{ background:#4a2326; color:#ffb3b3; }
 :root[data-tema="escuro"] .alerta-sucesso{ background:#1d3d2d; color:#a8e6c3; }
+
+/* variação do período (faturamento) */
+.delta-pos{ color:#2c6b4a; font-weight:700; }
+.delta-neg{ color:#9c3b3b; font-weight:700; }
+.kpi.destaque .delta-pos, .kpi.destaque .delta-neg{ color:#fff; }
+:root[data-tema="escuro"] .delta-pos{ color:#7fdcab; }
+:root[data-tema="escuro"] .delta-neg{ color:#ff9b98; }
+
+/* campos soltos das barras de filtro (produtos, clientes) */
+.barra input, .barra select{ background:var(--campo-bg); color:var(--tinta); font-family:var(--sans); }
+
+/* selos no modo escuro */
+:root[data-tema="escuro"] .badge-st-novo{ background:#22305a; color:#b5c7ff; }
+:root[data-tema="escuro"] .badge-st-em_producao{ background:#4a3510; color:#ffd394; }
+:root[data-tema="escuro"] .badge-st-enviado{ background:#3a2b57; color:#d6c3ff; }
+:root[data-tema="escuro"] .badge-st-concluido, :root[data-tema="escuro"] .badge-pg-aprovado, :root[data-tema="escuro"] .badge-ok{ background:#1d3d2d; color:#a8e6c3; }
+:root[data-tema="escuro"] .badge-st-cancelado, :root[data-tema="escuro"] .badge-pg-recusado, :root[data-tema="escuro"] .badge-ruim{ background:#4a2326; color:#ffb3b3; }
+:root[data-tema="escuro"] .badge-pg-pendente, :root[data-tema="escuro"] .badge-aviso{ background:#4a4010; color:#ffe58a; }
+:root[data-tema="escuro"] .badge-pg-estornado{ background:#3a3646; color:#cfc9dc; }
+:root[data-tema="escuro"] .btn-perigo{ background:#b94845; }
+:root[data-tema="escuro"] .btn-claro{ color:#fff; }
+:root[data-tema="escuro"] .btn-claro:hover{ background:#4b3a6e; }
+:root[data-tema="escuro"] table.tabela tr:hover td{ background:#2d2445; }

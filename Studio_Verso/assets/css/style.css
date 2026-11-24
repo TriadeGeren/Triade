@@ -55,7 +55,15 @@
 :root[data-tema="escuro"] .btn-primario{ background:#7B4FBF; }
 :root[data-tema="escuro"] .btn-primario:hover{ background:#9068d4; }
 :root[data-tema="escuro"] img{ filter:brightness(.92); }
-.btn-tema{ font-size:1.15rem; }
+:root[data-tema="escuro"] .alerta-erro{ background:#4a2326; color:#ffb3b3; }
+:root[data-tema="escuro"] .alerta-sucesso{ background:#1d3d2d; color:#a8e6c3; }
+:root[data-tema="escuro"] .pers-msg.ok{ color:#6fd6a3; }
+:root[data-tema="escuro"] .pers-msg.erro{ color:#ff9b98; }
+:root[data-tema="escuro"] .overlay{ background:rgba(0,0,0,.6); }
+:root[data-tema="escuro"] .btn-fio:hover{ color:#fff; }
+:root[data-tema="escuro"] .logo img{ filter:none; }
+.btn-tema{ font-size:1.15rem; line-height:1; }
+body, .topbar, .card-servico, .card-produto, .drawer, .pagina-form .card, footer{ transition:background-color .2s ease, border-color .2s ease, color .2s ease; }
 
 *{ box-sizing:border-box; }
 html{ scroll-behavior:smooth; }
@@ -112,6 +120,12 @@ nav.menu a:hover{ color:var(--roxo); }
   font-size:.65rem; padding:1px 5px; border-radius:50%;
 }
 .menu-mobile-btn{ display:none; }
+
+/* --- página do produto (mesmo visual do card do catálogo) --- */
+.produto-grade .categoria{ font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:var(--azul); font-weight:700; }
+.produto-grade .preco{ font-weight:700; color:var(--laranja); }
+.produto-grade .sob-encomenda{ font-size:.85rem; color:var(--tinta-suave); font-style:italic; }
+.produto-grade .thumb img{ width:100%; }
 
 /* --- hero --- */
 .hero{
@@ -266,6 +280,12 @@ footer li a:hover{ color:var(--roxo); }
 /* --- responsivo --- */
 @media (max-width: 860px){
   nav.menu{ display:none; }
+  nav.menu.aberto{
+    display:flex; flex-direction:column; gap:14px;
+    position:absolute; top:100%; left:0; right:0;
+    background:var(--creme-alto); padding:18px 24px;
+    border-bottom:3px dotted var(--linha); box-shadow:var(--sombra);
+  }
   .menu-mobile-btn{ display:block; }
   .grade-servicos, .grade-produtos{ grid-template-columns:1fr 1fr; }
   .faixa-encomenda .container{ grid-template-columns:1fr; }
@@ -304,3 +324,15 @@ footer li a:hover{ color:var(--roxo); }
 .item-carrinho .resumo{ font-size:.78rem; color:var(--tinta-suave); margin-top:2px; }
 .item-carrinho .remover{ background:none; border:none; color:var(--roxo); cursor:pointer; font-size:.8rem; text-decoration:underline; margin-top:4px; padding:0; }
 @media (max-width: 860px){ .produto-grade{ grid-template-columns:1fr !important; } }
+
+/* --- pagamento por Pix --- */
+.pix-valor{ font-size:1.2rem; margin:6px 0 14px; }
+.pix-valor strong{ color:var(--laranja); font-family:var(--display); font-size:1.6rem; }
+.pix-qr svg{ display:block; max-width:100%; height:auto; }
+.pix-qr{ display:inline-block; background:#fff; padding:6px; border-radius:var(--raio); border:2px solid var(--linha); margin:4px auto 10px; line-height:0; }
+.pix-qr img, .pix-qr canvas{ max-width:100%; }
+:root[data-tema="escuro"] .pix-qr img, :root[data-tema="escuro"] .pix-qr canvas{ filter:none; }
+.pix-legenda{ font-size:.85rem; color:var(--tinta-suave); margin:6px 0; }
+.pix-rotulo{ display:block; text-align:left; font-size:.85rem; font-weight:700; color:var(--titulo); margin:14px 0 6px; }
+.pix-codigo{ width:100%; padding:10px 12px; border:2px solid var(--linha); border-radius:var(--raio-peq); background:var(--campo-bg); color:var(--tinta); font-family:monospace; font-size:.78rem; resize:none; margin-bottom:10px; word-break:break-all; }
+.pix-chave{ font-size:1.05rem; word-break:break-all; color:var(--titulo); }

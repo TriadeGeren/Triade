@@ -109,6 +109,20 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnFecharCarrinho')?.addEventListener('click', fecharCarrinho);
   document.getElementById('overlay')?.addEventListener('click', fecharCarrinho);
 
+  // Menu do celular (botão ☰)
+  const btnMenu = document.querySelector('.menu-mobile-btn');
+  const menuNav = document.querySelector('nav.menu');
+  if (btnMenu && menuNav) {
+    btnMenu.setAttribute('aria-label', 'Abrir menu');
+    btnMenu.addEventListener('click', () => {
+      const aberto = menuNav.classList.toggle('aberto');
+      btnMenu.textContent = aberto ? '✕' : '☰';
+    });
+    menuNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      menuNav.classList.remove('aberto'); btnMenu.textContent = '☰';
+    }));
+  }
+
   document.querySelectorAll('.btn-add-carrinho').forEach(btn => {
     btn.addEventListener('click', () => {
       if (btn.hasAttribute('disabled')) return;

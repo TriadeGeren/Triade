@@ -20,7 +20,8 @@ if (!$produto) {
 
 // Personalização: opções do produto (e da categoria dele). Todo item sob encomenda aceita referências.
 $opcoes = opcoesDoProduto($conn, (int)$produto['id'], (int)$produto['categoria_id']);
-$mostrarPers = (bool)$opcoes || (bool)$produto['sob_encomenda'];
+$semEstoque = !$produto['sob_encomenda'] && (int)$produto['estoque'] <= 0;
+$mostrarPers = ((bool)$opcoes || (bool)$produto['sob_encomenda']) && !$semEstoque;
 if (empty($_SESSION['csrf_pub'])) $_SESSION['csrf_pub'] = bin2hex(random_bytes(32));
 
 $tituloPagina = $produto['nome'];

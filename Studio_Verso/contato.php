@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/config.php';
 $enviado = false;
+$erroContato = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Salva a mensagem no banco para aparecer em Admin > Mensagens.
@@ -22,6 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmtMsg->bind_param('ssss', $nomeMsg, $emailMsg, $tipoMsg, $textoMsg);
         $stmtMsg->execute();
         $enviado = true;
+    } else {
+        $erroContato = 'Confira seu nome, um e-mail válido e a mensagem.';
     }
 }
 
@@ -34,6 +37,9 @@ require __DIR__ . '/includes/header.php';
       <h2>Solicitar orçamento</h2>
       <p style="color:var(--tinta-suave);font-size:.9rem;">Conte sua ideia — personagem, referência, tema — e retornamos com prazo e valor.</p>
 
+      <?php if ($erroContato): ?>
+        <div class="alerta alerta-erro"><?= e($erroContato) ?></div>
+      <?php endif; ?>
       <?php if ($enviado): ?>
         <div class="alerta alerta-sucesso">Mensagem enviada! Responderemos em breve por e-mail.</div>
       <?php endif; ?>

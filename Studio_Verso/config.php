@@ -2,7 +2,7 @@
 /**
  * Configuração geral do Studio Verso.
  *
- * ESTE ARQUIVO NÃO GUARDA SENHAS. Os segredos (banco, token do Mercado Pago)
+ * ESTE ARQUIVO NÃO GUARDA SENHAS. Os segredos (banco, chave Pix)
  * ficam num arquivo à parte — assim você pode atualizar o site à vontade sem
  * apagar suas credenciais, e nunca corre o risco de publicá-las por engano.
  *
@@ -27,8 +27,10 @@ function segredo(string $chave, $padrao = '') {
         }
     }
     $env = getenv($chave);
-    if ($env !== false && $env !== '') return $env;
-    return $arquivo[$chave] ?? $padrao;
+    if ($env !== false && $env !== '') return trim($env);
+    $valor = $arquivo[$chave] ?? $padrao;
+    // Espaço ou quebra de linha colados junto do token/senha quebram a autenticação sem dar pista.
+    return is_string($valor) ? trim($valor) : $valor;
 }
 
 define('DB_HOST', segredo('DB_HOST', 'localhost'));
@@ -39,21 +41,18 @@ define('DB_PORT', (int)segredo('DB_PORT', 3306));
 // TiDB Cloud e outros bancos gerenciados exigem conexão criptografada (DB_SSL = true).
 define('DB_SSL', filter_var(segredo('DB_SSL', 'false'), FILTER_VALIDATE_BOOLEAN));
 
-// Mercado Pago: https://www.mercadopago.com.br/developers/panel/app
-define('MP_ACCESS_TOKEN', segredo('MP_ACCESS_TOKEN', 'COLE_AQUI_SEU_ACCESS_TOKEN_DE_TESTE'));
-
 /**
- * Webhook do Mercado Pago (aviso automático de pagamento).
- * A InfinityFree BLOQUEIA chamadas automáticas de fora, então lá deixe false:
- * o site confere o pagamento sozinho (página de retorno + botão do admin).
+ * Pagamento por Pix (manual, sem API): o cliente paga pela chave da loja e envia o comprovante
+ * pelo WhatsApp; você confirma em Admin > Pedidos. Veja includes/pix.php.
+ *   PIX_CHAVE  = sua chave Pix (e-mail, CPF/CNPJ, celular no formato +5585999999999 ou chave aleatória)
+ *   PIX_NOME   = nome que aparece para quem paga
+ *   PIX_CIDADE = cidade do recebedor
+ *   WHATSAPP_LOJA = número com DDI+DDD, só dígitos (ex.: 5585999999999)
  */
-define('MP_USAR_WEBHOOK', filter_var(segredo('MP_USAR_WEBHOOK', 'false'), FILTER_VALIDATE_BOOLEAN));
-
-/**
- * URL pública do site, SEM barra no final. Se estiver numa subpasta, inclua-a:
- * 'https://seusite.infinityfree.me/Studio_Verso'
- */
-define('URL_SITE', rtrim((string)segredo('URL_SITE', 'http://localhost'), '/'));
+define('PIX_CHAVE', (string)segredo('PIX_CHAVE', ''));
+define('PIX_NOME', (string)segredo('PIX_NOME', 'Studio Verso'));
+define('PIX_CIDADE', (string)segredo('PIX_CIDADE', 'Fortaleza'));
+define('WHATSAPP_LOJA', preg_replace('/\D+/', '', (string)segredo('WHATSAPP_LOJA', '5585996198403')));
 
 /**
  * Pasta do site dentro do servidor (descoberta sozinha).
@@ -64,6 +63,11 @@ if (!defined('BASE_PATH')) {
     $raizApp = str_replace('\\', '/', (string)realpath(__DIR__));
     define('BASE_PATH', ($raizDoc !== '' && str_starts_with($raizApp, $raizDoc)) ? substr($raizApp, strlen($raizDoc)) : '');
 }
+
+/* ---------- Fuso horário ---------- */
+// PHP e MySQL no mesmo horário (Brasília/Fortaleza, UTC-3): sem isso o "faturamento de hoje"
+// vira o dia às 21h e os horários dos pedidos aparecem trocados.
+date_default_timezone_set('America/Fortaleza');
 
 /* ---------- Endurecimento básico ---------- */
 // Nunca mostrar erros técnicos ao visitante (eles podem revelar caminhos e dados). Ficam só no log.
@@ -91,6 +95,7 @@ try {
         $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
     }
     $conn->set_charset('utf8mb4');
+    $conn->query("SET time_zone = '-03:00'");
 } catch (mysqli_sql_exception $e) {
     error_log('Falha ao conectar no banco: ' . $e->getMessage());
     die('Não foi possível conectar ao banco de dados. Verifique os segredos (segredos.php).');

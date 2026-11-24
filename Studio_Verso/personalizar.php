@@ -35,6 +35,8 @@ $stmt->execute();
 $produto = $stmt->get_result()->fetch_assoc();
 if (!$produto) responder(['ok' => false, 'erro' => 'Produto não encontrado.'], 404);
 
+if (!$produto['sob_encomenda'] && (int)$produto['estoque'] <= 0) responder(['ok' => false, 'erro' => 'Produto sem estoque no momento.'], 409);
+
 $opcoes = opcoesDoProduto($conn, (int)$produto['id'], (int)$produto['categoria_id']);
 if (!$opcoes && !$produto['sob_encomenda']) responder(['ok' => false, 'erro' => 'Este produto não tem personalização.'], 400);
 

@@ -4,14 +4,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FFF8EE">
 <title><?= isset($tituloPagina) ? e($tituloPagina) . ' — Studio Verso' : 'Studio Verso — Artesanato Personalizado' ?></title>
 <meta name="description" content="Sketchbooks personalizados, amigurumis e desenhos por encomenda, feitos à mão pelo Studio Verso.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/style.css">
+<link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/style.css?v=<?= (int)@filemtime(__DIR__ . '/../assets/css/style.css') ?>">
 <link rel="icon" href="<?= BASE_PATH ?>/assets/img/LogoStudioVersoOficial.jpeg">
 <script>(function(){try{var t=localStorage.getItem('sv_tema');if(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)t='escuro';if(t==='escuro')document.documentElement.setAttribute('data-tema','escuro');}catch(e){}})();</script>
-<script src="<?= BASE_PATH ?>/assets/js/tema.js" defer></script>
+<script src="<?= BASE_PATH ?>/assets/js/tema.js?v=<?= (int)@filemtime(__DIR__ . '/../assets/js/tema.js') ?>" defer></script>
 </head>
 <body>
 
@@ -63,7 +64,7 @@
     </div>
     <a href="<?= BASE_PATH ?>/finalizar.php" class="btn btn-primario" style="display:block;text-align:center;">Finalizar compra</a>
     <p style="font-size:.75rem;color:var(--tinta-suave);margin-top:10px;">
-      Pagamento seguro via Pix, cartão ou boleto pelo Mercado Pago.
+      Pagamento por Pix, com QR Code e confirmação pelo WhatsApp.
     </p>
   </div>
 </aside>

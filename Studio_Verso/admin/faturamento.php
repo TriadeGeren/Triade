@@ -74,8 +74,8 @@ function delta(float $atual, ?float $ant): string {
     if ($ant === null) return '';
     if ($ant == 0) return $atual > 0 ? '<span class="sub">novo período com vendas</span>' : '';
     $pct = ($atual - $ant) / $ant * 100;
-    $cor = $pct >= 0 ? '#2c6b4a' : '#9c3b3b';
-    return '<span class="sub" style="color:' . $cor . ';font-weight:700;">' . ($pct >= 0 ? '▲ ' : '▼ ') . number_format(abs($pct), 1, ',', '.') . '% vs período anterior</span>';
+    $cls = $pct >= 0 ? 'delta-pos' : 'delta-neg';
+    return '<span class="sub ' . $cls . '">' . ($pct >= 0 ? '▲ ' : '▼ ') . number_format(abs($pct), 1, ',', '.') . '% vs período anterior</span>';
 }
 
 // Query string atual (sem preset/de/ate) para montar os botões

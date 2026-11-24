@@ -10,7 +10,7 @@ $kMes  = kpis($base, ['de' => date('Y-m-01'), 'ate' => $hoje]);
 $serie = serieTemporal(['de' => date('Y-m-d', strtotime('-29 days')), 'ate' => $hoje] + $base);
 
 $cont = [
-    'novos'    => (int)$conn->query("SELECT COUNT(*) FROM pedidos WHERE status = 'novo'")->fetch_row()[0],
+    'novos'    => (int)$conn->query("SELECT COUNT(*) FROM pedidos WHERE status = 'novo' AND status_pagamento = 'aprovado'")->fetch_row()[0],
     'pendPag'  => (int)$conn->query("SELECT COUNT(*) FROM pedidos WHERE status_pagamento = 'pendente'")->fetch_row()[0],
     'produtos' => (int)$conn->query('SELECT COUNT(*) FROM produtos')->fetch_row()[0],
     'clientes' => (int)$conn->query('SELECT COUNT(*) FROM usuarios WHERE is_admin = 0')->fetch_row()[0],
@@ -24,7 +24,7 @@ adminHeader('Visão geral', 'dashboard');
 <div class="grade-kpi">
   <div class="kpi destaque"><div class="rotulo">Faturamento hoje</div><div class="valor"><?= brl($kHoje['faturamento']) ?></div><div class="sub"><?= $kHoje['pedidos'] ?> pedido(s) aprovado(s)</div></div>
   <div class="kpi"><div class="rotulo">Faturamento do mês</div><div class="valor"><?= brl($kMes['faturamento']) ?></div><div class="sub"><?= $kMes['pedidos'] ?> pedido(s) · ticket <?= brl($kMes['ticket']) ?></div></div>
-  <div class="kpi"><div class="rotulo">Pedidos novos</div><div class="valor"><?= $cont['novos'] ?></div><div class="sub"><a href="<?= BASE_PATH ?>/admin/pedidos.php?status=novo" style="color:var(--roxo)">ver pedidos →</a></div></div>
+  <div class="kpi"><div class="rotulo">Pedidos novos</div><div class="valor"><?= $cont['novos'] ?></div><div class="sub"><a href="<?= BASE_PATH ?>/admin/pedidos.php?status=novo&amp;pagamento=aprovado" style="color:var(--roxo)">ver pedidos →</a></div></div>
   <div class="kpi"><div class="rotulo">Aguardando pagamento</div><div class="valor"><?= $cont['pendPag'] ?></div><div class="sub"><a href="<?= BASE_PATH ?>/admin/pedidos.php?pagamento=pendente" style="color:var(--roxo)">ver →</a></div></div>
   <div class="kpi"><div class="rotulo">Mensagens não lidas</div><div class="valor"><?= $cont['msgs'] ?></div><div class="sub"><a href="<?= BASE_PATH ?>/admin/mensagens.php" style="color:var(--roxo)">abrir →</a></div></div>
 </div>

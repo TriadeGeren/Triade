@@ -1,9 +1,10 @@
 <?php
 require __DIR__ . '/_boot.php';
 require __DIR__ . '/_faturamento.php';   // dataValida()
-require_once __DIR__ . '/../includes/mercadopago.php';
+require_once __DIR__ . '/../includes/pedidos.php';
 require_once __DIR__ . '/../includes/personalizacao.php';
 garantirTabelasPersonalizacao($conn);
+pedidosGarantirColunas($conn);
 
 /* ---------- Ações (POST) ---------- */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -18,33 +19,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $conn->prepare('UPDATE pedidos SET status = ?, status_pagamento = ? WHERE id = ?');
             $stmt->bind_param('ssi', $status, $pag, $id);
             $stmt->execute();
+            // Pagamento marcado como aprovado à mão (ex.: Pix por fora): também desconta o estoque.
+            if ($pag === 'aprovado') baixarEstoquePedido($conn, $id);
             flash('ok', "Pedido #$id atualizado.");
         } else {
             flash('erro', 'Status inválido.');
         }
         redirecionar('/admin/pedidos.php?id=' . $id);
     }
-    if ($acao === 'sincronizar') {
-        try {
-            $novo = mpSincronizarPedido($conn, $id);
-            flash('ok', "Pedido #$id: pagamento " . (STATUS_PAGAMENTO[$novo] ?? '—') . ' (conferido no Mercado Pago).');
-        } catch (Throwable $e) {
-            flash('erro', 'Não consegui consultar o Mercado Pago: ' . $e->getMessage());
-        }
-        redirecionar('/admin/pedidos.php?id=' . $id);
-    }
-    if ($acao === 'sincronizar_todos') {
-        $pend = consultar("SELECT id FROM pedidos WHERE status_pagamento = 'pendente' AND mp_preference_id IS NOT NULL ORDER BY id DESC LIMIT 30");
-        $mudou = 0;
-        try {
-            foreach ($pend as $o) {
-                if (mpSincronizarPedido($conn, (int)$o['id']) !== 'pendente') $mudou++;
-            }
-            flash('ok', count($pend) . " pedido(s) pendente(s) conferido(s) no Mercado Pago; $mudou atualizado(s).");
-        } catch (Throwable $e) {
-            flash('erro', 'Não consegui consultar o Mercado Pago: ' . $e->getMessage());
-        }
-        redirecionar('/admin/pedidos.php');
+    if ($acao === 'confirmar_pix') {
+        // Pix recebido: marca como pago e desconta o estoque (uma única vez).
+        $stmt = $conn->prepare("UPDATE pedidos SET status_pagamento = 'aprovado' WHERE id = ?");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        baixarEstoquePedido($conn, $id);
+        flash('ok', "Pagamento do pedido #$id confirmado.");
+        redirecionar('/admin/pedidos.php' . (isset($_POST['voltar_lista']) ? '' : '?id=' . $id));
     }
     if ($acao === 'excluir') {
         foreach (consultar('SELECT id, arquivos FROM personalizacoes WHERE pedido_id = ?', 'i', [$id]) as $pz) {
@@ -80,7 +70,7 @@ if (isset($_GET['id'])) {
           <dt>WhatsApp</dt><dd><?= $zap ? '<a target="_blank" rel="noopener" style="color:var(--roxo)" href="https://wa.me/' . e($zap) . '">' . e($pedido['whatsapp_cliente']) . ' ↗</a>' : '—' ?></dd>
           <dt>Data</dt><dd><?= dataBr($pedido['criado_em']) ?></dd>
           <dt>Total</dt><dd><strong><?= brl($pedido['total']) ?></strong></dd>
-          <dt>Mercado Pago</dt><dd><small>preferência: <?= e($pedido['mp_preference_id'] ?: '—') ?><br>pagamento: <?= e($pedido['mp_payment_id'] ?: '—') ?></small></dd>
+          <dt>Pagamento</dt><dd>Pix (confirmado manualmente)</dd>
         </dl>
       </div>
       <div class="cartao">
@@ -91,13 +81,15 @@ if (isset($_GET['id'])) {
             <select name="status"><?php foreach (STATUS_PEDIDO as $k => $r): ?><option value="<?= $k ?>" <?= $pedido['status'] === $k ? 'selected' : '' ?>><?= e($r) ?></option><?php endforeach; ?></select></div>
           <div class="campo"><label>Pagamento</label>
             <select name="status_pagamento"><?php foreach (STATUS_PAGAMENTO as $k => $r): ?><option value="<?= $k ?>" <?= $pedido['status_pagamento'] === $k ? 'selected' : '' ?>><?= e($r) ?></option><?php endforeach; ?></select>
-            <small>Normalmente o Mercado Pago atualiza isso sozinho. Altere à mão só em casos como pagamento por fora (ex.: Pix direto).</small></div>
+            <small>O pagamento é por Pix: confirme quando o dinheiro cair na sua conta. Ao marcar como Aprovado, o estoque é descontado.</small></div>
           <button class="btn btn-primario" type="submit">Salvar situação</button>
         </form>
-        <form method="POST" style="margin-top:12px">
-          <?= csrfField() ?><input type="hidden" name="acao" value="sincronizar"><input type="hidden" name="id" value="<?= (int)$pedido['id'] ?>">
-          <button class="btn btn-claro btn-peq" type="submit">↻ Conferir pagamento no Mercado Pago</button>
+        <?php if ($pedido['status_pagamento'] !== 'aprovado'): ?>
+        <form method="POST" style="margin-top:12px" onsubmit="return confirm('Confirmar que o Pix do pedido #<?= (int)$pedido['id'] ?> foi recebido?')">
+          <?= csrfField() ?><input type="hidden" name="acao" value="confirmar_pix"><input type="hidden" name="id" value="<?= (int)$pedido['id'] ?>">
+          <button class="btn btn-verde btn-peq" type="submit">✔ Confirmar pagamento (Pix recebido)</button>
         </form>
+        <?php endif; ?>
       </div>
     </div>
     <div class="cartao">
@@ -175,8 +167,7 @@ adminHeader('Pedidos', 'pedidos');
 <div class="cartao">
   <div class="barra">
     <h2 style="margin:0"><?= $total ?> pedido(s)</h2>
-    <form method="POST"><?= csrfField() ?><input type="hidden" name="acao" value="sincronizar_todos">
-      <button class="btn btn-claro btn-peq" type="submit">↻ Conferir pendentes no Mercado Pago</button></form>
+    <span style="font-size:.85rem;color:var(--tinta-suave)">Pix recebido? Abra o pedido ou use ✔ na linha.</span>
   </div>
   <?php if (!$pedidos): ?><p class="vazio">Nenhum pedido encontrado.</p><?php else: ?>
   <div class="tabela-wrap"><table class="tabela">
@@ -189,7 +180,15 @@ adminHeader('Pedidos', 'pedidos');
         <td class="num"><?= brl($o['total']) ?></td>
         <td><?= badgeStatus($o['status']) ?></td>
         <td><?= badgePagamento($o['status_pagamento']) ?></td>
-        <td><a class="btn btn-claro btn-peq" href="?id=<?= (int)$o['id'] ?>">Abrir</a></td>
+        <td><div class="acoes-linha">
+          <a class="btn btn-claro btn-peq" href="?id=<?= (int)$o['id'] ?>">Abrir</a>
+          <?php if ($o['status_pagamento'] === 'pendente'): ?>
+          <form method="POST" onsubmit="return confirm('Confirmar que o Pix do pedido #<?= (int)$o['id'] ?> foi recebido?')">
+            <?= csrfField() ?><input type="hidden" name="acao" value="confirmar_pix"><input type="hidden" name="voltar_lista" value="1"><input type="hidden" name="id" value="<?= (int)$o['id'] ?>">
+            <button class="btn btn-verde btn-peq" type="submit" title="Pix recebido: confirmar pagamento">✔</button>
+          </form>
+          <?php endif; ?>
+        </div></td>
       </tr>
     <?php endforeach; ?>
   </table></div>

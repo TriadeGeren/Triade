@@ -67,7 +67,7 @@ require __DIR__ . '/includes/header.php';
         <div class="campo"><label>Senha</label><input type="password" name="senha" required></div>
         <button type="submit" class="btn btn-primario" style="width:100%;">Entrar</button>
       </form>
-      <p style="margin-top:14px;font-size:.9rem;">Ainda não tem conta? <a href="<?= BASE_PATH ?>/cadastro.php" style="color:var(--fio-petroleo)">Cadastre-se</a></p>
+      <p style="margin-top:14px;font-size:.9rem;">Ainda não tem conta? <a href="<?= BASE_PATH ?>/cadastro.php" style="color:var(--roxo)">Cadastre-se</a></p>
     </div>
   </div>
 </section>

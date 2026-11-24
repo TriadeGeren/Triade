@@ -129,7 +129,8 @@ function consultar(string $sql, string $tipos = '', array $params = []): array {
 function adminHeader(string $titulo, string $ativo = ''): void {
     global $conn, $adminAtual;
     $naoLidas = (int)$conn->query('SELECT COUNT(*) FROM mensagens WHERE lida = 0')->fetch_row()[0];
-    $pendentes = (int)$conn->query("SELECT COUNT(*) FROM pedidos WHERE status = 'novo'")->fetch_row()[0];
+    // "Novo" = pedido pago e ainda não tratado (checkout abandonado não conta; ele aparece em "Aguardando pagamento").
+    $pendentes = (int)$conn->query("SELECT COUNT(*) FROM pedidos WHERE status = 'novo' AND status_pagamento = 'aprovado'")->fetch_row()[0];
 
     $menu = [
         'dashboard'  => [BASE_PATH . '/admin/index.php', '🏠', 'Visão geral', 0],
@@ -148,15 +149,16 @@ function adminHeader(string $titulo, string $ativo = ''): void {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#FFF8EE">
 <meta name="robots" content="noindex, nofollow">
 <title><?= e($titulo) ?> — Admin Studio Verso</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/style.css">
-<link rel="stylesheet" href="<?= BASE_PATH ?>/admin/admin.css">
+<link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/style.css?v=<?= (int)@filemtime(__DIR__ . '/../assets/css/style.css') ?>">
+<link rel="stylesheet" href="<?= BASE_PATH ?>/admin/admin.css?v=<?= (int)@filemtime(__DIR__ . '/admin.css') ?>">
 <link rel="icon" href="<?= BASE_PATH ?>/assets/img/LogoStudioVersoOficial.jpeg">
 <script>(function(){try{var t=localStorage.getItem('sv_tema');if(!t&&window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)t='escuro';if(t==='escuro')document.documentElement.setAttribute('data-tema','escuro');}catch(e){}})();</script>
-<script src="<?= BASE_PATH ?>/assets/js/tema.js" defer></script>
+<script src="<?= BASE_PATH ?>/assets/js/tema.js?v=<?= (int)@filemtime(__DIR__ . '/../assets/js/tema.js') ?>" defer></script>
 </head>
 <body class="admin">
 <aside class="adm-lateral" id="admLateral">

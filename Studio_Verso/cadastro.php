@@ -43,7 +43,7 @@ require __DIR__ . '/includes/header.php';
         <div class="campo"><label>Senha</label><input type="password" name="senha" minlength="6" required></div>
         <button type="submit" class="btn btn-primario" style="width:100%;">Cadastrar</button>
       </form>
-      <p style="margin-top:14px;font-size:.9rem;">Já tem conta? <a href="<?= BASE_PATH ?>/login.php" style="color:var(--fio-petroleo)">Entrar</a></p>
+      <p style="margin-top:14px;font-size:.9rem;">Já tem conta? <a href="<?= BASE_PATH ?>/login.php" style="color:var(--roxo)">Entrar</a></p>
     </div>
   </div>
 </section>

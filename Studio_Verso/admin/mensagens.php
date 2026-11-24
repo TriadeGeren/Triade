@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $conn->prepare('UPDATE mensagens SET lida = ? WHERE id = ?');
         $stmt->bind_param('ii', $v, $id);
         $stmt->execute();
-        redirecionar('/admin/mensagens.php' . ($v ? '' : '?ver=' . $id));
+        redirecionar('/admin/mensagens.php' . ($v ? '' : '?ver=' . $id . '&manter=1'));
     }
     if ($acao === 'excluir') {
         $stmt = $conn->prepare('DELETE FROM mensagens WHERE id = ?');

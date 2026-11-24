@@ -1,8 +1,9 @@
 <?php
 require_once __DIR__ . '/config.php';
-require_once __DIR__ . '/includes/mercadopago.php';
+require_once __DIR__ . '/includes/pedidos.php';
 require_once __DIR__ . '/includes/personalizacao.php';
 garantirTabelasPersonalizacao($conn);
+pedidosGarantirColunas($conn);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ' . BASE_PATH . '/index.php');
@@ -105,39 +106,8 @@ try {
     die('Não foi possível registrar o pedido. Tente novamente. <a href="' . BASE_PATH . '/finalizar.php">Voltar</a>');
 }
 
-// 2) Cria a cobrança no Mercado Pago e redireciona o cliente pro checkout
-try {
-    $preferencia = mpCriarPreferencia($pedidoId, $itens, ['nome' => $nome, 'email' => $email]);
-
-    // Guarda o id da preferência pra referência futura
-    $stmtUp = $conn->prepare("UPDATE pedidos SET mp_preference_id = ? WHERE id = ?");
-    $stmtUp->bind_param('si', $preferencia['id'], $pedidoId);
-    $stmtUp->execute();
-
-    // Use 'init_point' em produção. Enquanto estiver testando com credenciais
-    // de TESTE, o Mercado Pago só libera o 'sandbox_init_point'.
-    $urlCheckout = $preferencia['init_point'] ?? $preferencia['sandbox_init_point'];
-
-    header('Location: ' . $urlCheckout);
-    exit;
-} catch (Throwable $e) {
-    // Se o Mercado Pago falhar, o pedido já está salvo — mostramos um aviso
-    // e deixamos o cliente falar com você pelo WhatsApp como plano B.
-    $tituloPagina = 'Pedido registrado';
-    require __DIR__ . '/includes/header.php';
-    ?>
-    <section class="secao">
-      <div class="container pagina-form">
-        <div class="card" style="text-align:center;">
-          <h2>Pedido #<?= (int)$pedidoId ?> registrado!</h2>
-          <div class="alerta alerta-erro">
-            Não conseguimos abrir o pagamento online agora. Chame a gente no WhatsApp que finalizamos por lá.
-          </div>
-          <a href="https://wa.me/5585996198403?text=Ol%C3%A1!%20Fiz%20o%20pedido%20%23<?= (int)$pedidoId ?>%20no%20site." class="btn btn-primario">Falar no WhatsApp</a>
-        </div>
-      </div>
-    </section>
-    <?php
-    require __DIR__ . '/includes/footer.php';
-    exit;
-}
+// 2) Pedido salvo: leva o cliente para a tela com as instruções de pagamento (Pix).
+// Guardamos na sessão quais pedidos são deste visitante (só ele consegue abrir a tela do pedido).
+$_SESSION['pedidos_meus'] = array_slice(array_merge($_SESSION['pedidos_meus'] ?? [], [(int)$pedidoId]), -20);
+header('Location: ' . BASE_PATH . '/pedido_retorno.php?pedido=' . (int)$pedidoId);
+exit;
